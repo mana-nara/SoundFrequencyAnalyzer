@@ -33,7 +33,7 @@ pip install numpy scipy matplotlib sounddevice
 ## How to Run
 
 ```bash
-python sound_analyzer.py
+python soundFrequencyAnalyzer.py
 ```
 
 ---
