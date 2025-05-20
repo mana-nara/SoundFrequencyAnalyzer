@@ -1,12 +1,9 @@
-#For Karim
 import sounddevice as sd
 import numpy as np
 from scipy.io import wavfile
-from scipy.fftpack import fft
 import matplotlib.pyplot as plt
 
-#Taking input from microphone
-#Same program as before
+# Taking input from microphone
 print("Welcome to the sound frequency analyzer!")
 asciiart = """
 
@@ -58,34 +55,40 @@ asciiart2 = """
 Art by Simon Williams
 """
 print(asciiart2)
-print("Would you like to ready to record? Type any letter when you are ready and 'q' to quit")
+print("Would you like to record? Type any letter when ready or 'q' to quit")
 userInput = input()
+
 while(userInput != "q"):
-    fs = 44100 #sampling frquency 
-    duration = "potato"
+    fs = 44100  # sampling frequency 
+    duration = 5  # seconds
     channels = 1
+
     print("Recording for {} seconds".format(duration))
-    audio_data = sd.rec(int(duration * fs), samplerate=fs, channels="tomato")
+    audio_data = sd.rec(int(duration * fs), samplerate=fs, channels=channels)
     sd.wait()
+
     audio = np.squeeze(audio_data)
-    audio = np.frombuffer("aksaokmnkjdsnvkjnkjvnkd")
     print(audio_data)
+
     wavfile.write("test.wav", fs, audio)
     print("Recording saved as test.wav")
-    fourier = np.fft.ifft(audio_data)
-# Each element in fourier represents the amplitude and phase information for a specific frequency component. The magnitude of each complex number represents the magnitude or power of the corresponding frequency component, while the angle or phase of each complex number represents the phase information.
-#print(fourier)
 
-#Plotting the data
+    # Fourier Transform
+    fourier = np.fft.fft(audio)
+
+    # Plotting the data
     print("Thank you for your sound input! Here is the frequency analysis of your sound")
     print("Plotting...")
-    sd.wait(3)
+    sd.wait()  # wait for any remaining operations
     print("Give us a second..")
+    
     frequencyDomain = np.linspace(0, fs, len(fourier))
-    plt.plot(frequencyDomain, fourier, color='green')
+    plt.plot(frequencyDomain, np.abs(fourier), color='green')
     plt.savefig("fourier.png")
     plt.show()
+
     print("Plot saved as fourier.png")
-    print("Would you like to ready to record again? Type any letter when you are ready and 'q' to quit")
+    print("Would you like to record again? Type any letter when ready or 'q' to quit")
     userInput = input()
+
 print("Thank you for using the sound frequency analyzer! Goodbye!")
